@@ -42,8 +42,14 @@ const UserDetail = (props)=> {
         verified:"",
         state:"",
         zipcode:"",
-        point:""
+        point:"",
+        createdAt:""
     });
+
+    const formatDate = (date)=>{
+        let date1 = new Date(date);
+        return moment(date1).format("DD-MM-YYYY")
+    }
 
     const fetchDetail = async ()=>{
         await WebServices.axiosObject(account.token).get(`users/${props.id}/detail`)
@@ -56,7 +62,7 @@ const UserDetail = (props)=> {
                 if(user1.isVerified)
                     v = "Yes"
                 setUser({...user,name:user1.name,phone:user1.phone,refer:user1.refer,company: user1.company,verified:v,
-                    role:user1.role,address: user1.address,city: user1.city,state: user1.state,zipcode: user1.zipcode,point: user1.point})
+                    role:user1.role,address: user1.address,city: user1.city,state: user1.state,zipcode: user1.zipcode,point: user1.point,createdAt:user1.createdAt})
                 console.log("rewards",responseData.rewards)
                 setUserPoint(user1.point);
                 setReward(responseData.rewards);
@@ -180,6 +186,10 @@ const UserDetail = (props)=> {
                                             <TableRow>
                                                 <TableCell  style={{padding:"0"}}><Typography style={{color:"#00adb5"}} variant="h3" component="h3">Zipcode</Typography></TableCell>
                                                 <TableCell  style={{padding:"0"}}><h4>{user.zipcode || "N/A"}</h4></TableCell>
+                                            </TableRow>
+                                            <TableRow>
+                                                <TableCell  style={{padding:"0"}}><Typography style={{color:"#00adb5"}} variant="h3" component="h3">Created Date</Typography></TableCell>
+                                                <TableCell  style={{padding:"0"}}><h4>{formatDate(user.createdAt)}</h4></TableCell>
                                             </TableRow>
                                         </TableBody>
                                     </Table>
